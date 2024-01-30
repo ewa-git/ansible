@@ -1,0 +1,41 @@
+---
+- name: pull image ubuntu
+  docker_image:
+    name: ubuntu
+    source: pull
+    
+- name: pull image ubuntu
+  docker_image:
+    name: centos
+    source: pull
+
+- name: create container one
+  docker_container:
+    name: "{{ container_1_name }}"
+    image: ubuntu
+    state: present
+    
+- name: create container two
+  docker_container:
+    name: "{{ container_2_name }}"
+    image: ubuntu
+    state: present
+    
+- name: create container three
+  docker_container:
+    name: "{{ container_3_name }}"
+    image: centos
+    state: present
+    
+- name: retreive ip of container1
+  shell: docker container inspect -f '{%raw %}{{ .NetworkSettings.IPAddress }}{% endraw %}' "{{ container_1_name }}"
+  register: container_1_ip
+  
+- name: retreive ip of container1
+  shell: docker container inspect -f '{%raw %}{{ .NetworkSettings.IPAddress }}{% endraw %}' "{{ container_2_name }}"
+  register: container_2_ip
+  
+- name: retreive ip of container1
+  shell: docker container inspect -f '{%raw %}{{ .NetworkSettings.IPAddress }}{% endraw %}' "{{ container_3_name }}"
+  register: container_3_ip
+  	

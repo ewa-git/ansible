@@ -1,0 +1,12 @@
+---
+- hosts: local
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: gather basic information about localhost
+      command: echo "{{ansible_facts['os_family']}}, {{ansible_facts['memtotal_mb']}}, {{ansible_facts['processor_cores']}}, {{ansible_facts['architecture']}}"
+  roles:
+    - common
+    - docker
+    - inventory 
+

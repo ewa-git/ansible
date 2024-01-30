@@ -1,0 +1,40 @@
+---
+- name: install Docker
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - docker-buildx-plugin  
+      
+- name: run docker 
+  become: yes
+  become_method: sudo
+  service: 
+    name: docker
+   
+- name: create docker group
+  become: yes
+  become_method: sudo
+  group:
+    name: docker
+    state: present
+    
+- name: allow docker group to be passwordless
+  become: yes
+  become_method: sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%docker'
+    line: '%docker ALL=(ALL) NOPASSWD: ALL'
+    
+- name: add user to docker group
+  become: yes
+  become_method: sudo
+  user:
+    name: devops 
+    groups: sudo,docker 
+    state: present    

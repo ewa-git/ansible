@@ -1,0 +1,12 @@
+---
+- name: create inventory2
+  copy:
+    content: |
+      [apache]
+      {{ container_1_ip}} ansible_ssh_user=devops ansible_ssh_pass=password 
+      [nginx]
+      {{ container_2_ip}} ansible_ssh_user=devops ansible_ssh_pass=password 
+      [phyton]
+      {{ container_3_ip}} ansible_ssh_user=devops ansible_ssh_pass=password 
+     dest: /zadanie_2_inventory.ini
+  state: present
